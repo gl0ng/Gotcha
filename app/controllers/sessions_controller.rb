@@ -1,25 +1,21 @@
 class SessionsController < ApplicationController
 
-	def new
-	end
+  def new
+  end
 
   def create
-    assassin = Assassin.find_by_email(params[:email])
-    # If the user exists AND the password entered is correct.
-    if assassin && assassin.authenticate(params[:password])
-      # Save the user id inside the browser cookie. This is how we keep the user 
-      # logged in when they navigate around our website.
-      session[:assassin_id] = assassin.id
-      redirect_to '/'
+    user = Assassin.find_by(email: params[:session][:email].downcase)
+    if user && user.authenticate(params[:session][:password])
+      log_in user
+      redirect_to user
     else
-    # If user's login doesn't work, send them back to the login form.
-      redirect_to '/login'
+      flash.now[:danger] = 'Invalid email/password combination'
+      render 'new'
     end
   end
 
   def destroy
-    session[:assassin_id] = nil
-    redirect_to '/login'
+    log_out
+    redirect_to root_url
   end
-
 end
