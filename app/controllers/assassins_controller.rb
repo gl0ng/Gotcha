@@ -1,6 +1,7 @@
 class AssassinsController < ApplicationController
-	before_action :logged_in_user, only: [:edit, :update, :index]
+	before_action :logged_in_user, only: [:edit, :update, :index, :destroyS]
 	before_action :correct_user, only: [:edit, :update]
+	before_action :admin_user, only: :destroy
 
 	def new
 		@assassin = Assassin.new
@@ -39,6 +40,12 @@ class AssassinsController < ApplicationController
 		@assassins = Assassin.paginate(page: params[:page])
 	end
 
+	def destroy
+		Assassin.find(params[:id]).destroy
+		flash[:success] = "Assassin deleted"
+		redirect_to assassins_url
+	end
+
 	private
 	def assassin_params
 		params.require(:assassin).permit(:name, :email, :password, :password_confirmation)
@@ -55,5 +62,9 @@ class AssassinsController < ApplicationController
 	def correct_user
 		@assassin = Assassin.find(params[:id])
 		redirect_to(root_url) unless current_user?(@assassin)
+	end
+
+	def admin_user
+		redirect_to(root_url) unless current_user.admin?
 	end
 end
