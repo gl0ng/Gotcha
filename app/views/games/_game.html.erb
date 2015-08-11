@@ -1,0 +1,8 @@
+<li>
+	<%= link_to game.name, game %>
+	<% if current_user.admin? || current_user.id == game.admin_id %>
+    | <%= link_to "delete", game, method: :delete,
+                                  data: { confirm: "You sure?" } %>
+    |  <%= link_to "edit", edit_game_path(game) %>
+    <% end %>
+</li>
