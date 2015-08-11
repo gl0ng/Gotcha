@@ -45,6 +45,18 @@ class GamesController < ApplicationController
 		redirect_to assassins_url
 	end
 
+	def join
+		@game = Game.find(params[:id])
+
+		unless @game.players.find_by_id(current_user.id)
+			Player.create(game: @game, :assassin => current_user)
+		    flash[:success] = "Joined Game!"
+		else
+			flash[:error] = "Already Joined Game!"
+		end
+		redirect_to @game
+	end
+
 	private
 	def game_params
 		params.require(:game).permit(:name, :description)

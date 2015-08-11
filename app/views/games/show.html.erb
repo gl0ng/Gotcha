@@ -1,16 +1,25 @@
 <% provide(:title, @game.name) %>
-<div class="row">
-  <aside class="col-md-4">
-    <section class="game_info">
-      <h1>
-      	Name: <%= @game.name %>
+<h1>Game Profile</h1>
+<div class="jumbotron">
+  <div class="row">
+    <aside class="col-md-4">
+      <section class="game_info">
+        <h3>
+        	Name: <%= @game.name %>
+          </br>
+          </br>
+          Description: <%= @game.description %>
+          </br>
+          </br>
+          Admin: <%= @game.admin.name %>
+        </h3>
+      <% unless @game.players.find_by_id(current_user.id) %>
         </br>
-        </br>
-        Description: <%= @game.description %>
-    </br>
-    </br>
-        Admin: <%= @game.admin.name %>
-      </h1>
-    </section>
-  </aside>
+        <div class="center" >
+          <%= link_to "join", join_game_path(@game), method: :put, class: "btn btn-lg btn-primary center" %>
+        </div>
+      <% end %>
+      </section>
+    </aside>
+  </div>
 </div>
