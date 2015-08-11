@@ -1,7 +1,9 @@
 <% provide(:title, 'All assassins') %>
 <h1>All Assassinss</h1>
-<%= will_paginate %>
-<ul class="assassins">
-  <%= render @assassins %>
-</ul>
-<%= will_paginate %>
+<div class="center jumbotron">
+	<%= will_paginate %>
+	<ul class="assassins">
+	  <%= render @assassins %>
+	</ul>
+	<%= will_paginate %>
+</div>
