@@ -13,7 +13,7 @@
           </br>
           Admin: <%= @game.admin.name %>
         </h3>
-      <% unless @game.players.find_by_id(current_user.id) %>
+      <% unless @game.players.find_by(assassin_id: current_user.id) %>
         </br>
         <div class="center" >
           <%= link_to "join", join_game_path(@game), method: :put, class: "btn btn-lg btn-primary center" %>
