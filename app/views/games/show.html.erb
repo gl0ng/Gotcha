@@ -1,0 +1,16 @@
+<% provide(:title, @game.name) %>
+<div class="row">
+  <aside class="col-md-4">
+    <section class="game_info">
+      <h1>
+      	Name: <%= @game.name %>
+        </br>
+        </br>
+        Description: <%= @game.description %>
+    </br>
+    </br>
+        Admin: <%= @game.admin.name %>
+      </h1>
+    </section>
+  </aside>
+</div>
