@@ -14,4 +14,8 @@ class Player < ActiveRecord::Base
 			"terminated"
 		end
 	end
+
+	def name
+		self.assassin.name
+	end
 end
