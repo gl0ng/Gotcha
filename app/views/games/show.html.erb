@@ -11,15 +11,21 @@
           Description: <%= @game.description %>
           </br>
           </br>
-          Admin: <%= @game.admin.name %>
+          Admin: <%= link_to @game.admin.name, @game.admin %>
           </br>
           </br>
           Status: <%= @game.status %>
         </h4>
-      <% unless @game.players.find_by(assassin_id: current_user.id) %>
+      <% if !@game.players.find_by(assassin_id: current_user.id) && @game.status == "Enrolling" %>
         </br>
         <div class="center" >
-          <%= link_to "join", join_game_path(@game), method: :put, class: "btn btn-lg btn-primary center" %>
+          <%= link_to "Join Game", join_game_path(@game), method: :put, class: "btn btn-lg btn-primary center" %>
+        </div>
+      <% end %>
+      <% if @game.admin == current_user && @game.status == "Enrolling" %>
+        </br>
+        <div class="center" >
+          <%= link_to "Start Game", start_game_path(@game), method: :put, class: "btn btn-lg btn-primary center" %>
         </div>
       <% end %>
       </section>

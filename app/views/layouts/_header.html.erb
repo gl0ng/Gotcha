@@ -4,6 +4,7 @@
     <nav>
       <ul class="nav navbar-nav navbar-right">
         <% if logged_in? %>
+          <li><%= link_to "Create Game", new_game_path %></li>
           <li><%= link_to "Games", games_path %></li>
           <li><%= link_to "Assassins", assassins_path %></li>
           <li class="dropdown">
