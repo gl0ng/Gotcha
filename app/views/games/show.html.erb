@@ -4,6 +4,7 @@
   <div class="row">
     <aside class="col-md-4">
       <section class="game_info">
+        <% @player = @game.players.find_by(assassin_id: current_user.id) %>
         <h4>
         	Name: <%= @game.name %>
           </br>
@@ -15,8 +16,13 @@
           </br>
           </br>
           Status: <%= @game.status %>
+          <% if @game.in_progress %>
+            <br>
+            <br>
+            Current Target: <%= link_to @player.target.name, @player.target.assassin %>
+          <% end %>
         </h4>
-      <% if !@game.players.find_by(assassin_id: current_user.id) && @game.status == "Enrolling" %>
+      <% if !@player && @game.status == "Enrolling" %>
         </br>
         <div class="center" >
           <%= link_to "Join Game", join_game_path(@game), method: :put, class: "btn btn-lg btn-primary center" %>

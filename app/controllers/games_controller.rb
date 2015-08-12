@@ -66,7 +66,7 @@ class GamesController < ApplicationController
 
 		if @game.status == "Enrolling"
 			if @game.players.count > 1
-				@game.update_attributes(in_progress: true)
+				@game.start
 				flash[:success] = "Game Started!"
 			else
 				flash[:danger] = "Must Have Two or More Players to Start Game!"
@@ -86,5 +86,4 @@ class GamesController < ApplicationController
 		@game = Game.find(params[:id])
 		redirect_to(root_url) unless current_user?(@game.admin)
 	end
-
 end
