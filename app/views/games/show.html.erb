@@ -16,10 +16,14 @@
           </br>
           </br>
           Status: <%= @game.status %>
-          <% if @game.in_progress %>
+          <% if @player.try(:target) %>
             <br>
             <br>
             Current Target: <%= link_to @player.target.name, @player.target.assassin %>
+            <br>
+            <br>
+            Target Defeated: 
+            <%= link_to "Defeated", defeat_player_path(Player.find(@player.target_id)), class: "btn btn-lg btn-primary center" %>
           <% end %>
         </h4>
       <% if !@player && @game.status == "Enrolling" %>
@@ -48,7 +52,7 @@
         <tr>
           <th>Name</th>
           <th>Status</th>
-          <th>Kills</th>
+          <th>Points</th>
         </tr>
       </thead>
       <tbody>

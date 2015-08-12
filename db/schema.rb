@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150812034809) do
+ActiveRecord::Schema.define(version: 20150812204848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 20150812034809) do
     t.boolean "alive",       default: true
     t.integer "kills",       default: 0
     t.integer "target_id"
+    t.string  "passcode"
   end
 
   add_index "players", ["assassin_id"], name: "index_players_on_assassin_id", using: :btree

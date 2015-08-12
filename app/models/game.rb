@@ -26,7 +26,7 @@ class Game < ActiveRecord::Base
 
 	def start
 		self.update_attributes(in_progress: true)
-		contestants = players.shuffle
+		contestants = players.clone.shuffle
 		contestants.each_with_index do |contestant, index|
 			if contestant == contestants.last
 				contestant.update_attributes(target_id: contestants.first.id)
