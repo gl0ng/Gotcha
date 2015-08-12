@@ -4,6 +4,7 @@ class PlayersController < ApplicationController
 
 	def defeat
 		@player = Player.find(params[:id])
+		@player.passcode = nil
 	end
 
 	def vanquish

@@ -1,4 +1,6 @@
 class Game < ActiveRecord::Base
+	require 'securerandom'
+
 	has_one :admin, class_name: "Assassin", foreign_key: "admin_id"
 	has_many :players
 
@@ -33,6 +35,7 @@ class Game < ActiveRecord::Base
 			else
 				contestant.update_attributes(target_id: contestants[index + 1].id)
 			end
+			contestant.update_attributes(passcode: SecureRandom.hex(4))
 		end
 	end	
 end

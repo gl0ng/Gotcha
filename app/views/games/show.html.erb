@@ -16,6 +16,11 @@
           </br>
           </br>
           Status: <%= @game.status %>
+          <% if @game.status == "In-Progress" %>
+            <br>
+            <br>
+            Passcode: <%= @player.passcode %>
+          <% end %>
           <% if @player.try(:target) %>
             <br>
             <br>
