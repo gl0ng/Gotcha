@@ -1,10 +1,10 @@
 <% provide(:title, @game.name) %>
-<h1>Game Profile</h1>
 <div class="jumbotron">
+  <h1>Game Profile</h1>
   <div class="row">
     <aside class="col-md-4">
       <section class="game_info">
-        <h3>
+        <h4>
         	Name: <%= @game.name %>
           </br>
           </br>
@@ -12,7 +12,10 @@
           </br>
           </br>
           Admin: <%= @game.admin.name %>
-        </h3>
+          </br>
+          </br>
+          Status: <%= @game.status %>
+        </h4>
       <% unless @game.players.find_by(assassin_id: current_user.id) %>
         </br>
         <div class="center" >
@@ -22,4 +25,29 @@
       </section>
     </aside>
   </div>
+</div>
+
+<div class="jumbotron">
+  <% if @game.players %>
+    </br>
+    <h1 class="center">Scoreboard</h1>
+    <table id="players">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Status</th>
+          <th>Kills</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @game.players.each do |player| %>
+          <tr>
+            <td><%= link_to player.assassin.name, player.assassin %></td>
+            <td><%= player.status %></td>
+            <td><%= player.kills %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
 </div>
