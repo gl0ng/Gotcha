@@ -37,7 +37,7 @@ class AssassinsController < ApplicationController
 	end
 
 	def index
-		@assassins = Assassin.paginate(page: params[:page])
+		@assassins = Assassin.all
 	end
 
 	def destroy

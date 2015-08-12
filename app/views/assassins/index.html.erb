@@ -1,9 +1,31 @@
-<% provide(:title, 'All assassins') %>
-<h1>All Assassinss</h1>
-<div class="center jumbotron">
-	<%= will_paginate %>
-	<ul class="assassins">
-	  <%= render @assassins %>
-	</ul>
-	<%= will_paginate %>
-</div>
+
+<h1>All Assassins</h1>
+
+<table id="assassins">
+<thead>
+  <tr>
+	  <th>Gravatar</th>
+	  <th>Assassin Name</th>
+	  <% if current_user.admin?  %>
+		<th>Actions</th>
+	  <% end %>
+  </tr>
+</thead>
+<tbody>
+  <% @assassins.each do |assassin| %>
+    <tr>
+      <td><%= gravatar_for assassin %></td>
+	  <td><%= link_to assassin.name, assassin %></td>
+	  <% if current_user.admin? %>
+	    <td>
+		<% if !current_user?(assassin) %>
+    	  <%= link_to "delete", assassin, method: :delete, data: { confirm: "You sure?" } %>
+    	  <% else %>	
+    	    None
+    	  <% end %>
+    	</td>
+      <% end %>
+    </tr>
+  <% end %>
+</tbody>
+</table>

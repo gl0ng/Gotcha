@@ -36,7 +36,7 @@ class GamesController < ApplicationController
 	end
 
 	def index
-		@games = Game.paginate(page: params[:page])
+		@games = Game.all
 	end
 
 	def destroy

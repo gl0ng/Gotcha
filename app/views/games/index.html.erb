@@ -1,9 +1,21 @@
-<% provide(:title, 'All games') %>
+
 <h1>All Games</h1>
-<div class="center jumbotron">
-	<%= will_paginate %>
-	<ul class="games">
-	  <%= render @games %>
-	</ul>
-	<%= will_paginate %>
-</div>
+
+<table id="games">
+<thead>
+  <tr>
+	  <th>Name</th>
+	  <th>Admin</th>
+	  <th># of Players</th>
+  </tr>
+</thead>
+<tbody>
+  <% @games.each do |game| %>
+    <tr>
+      <td><%= link_to game.name, game %></td>
+	  <td><%= game.admin.name %></td>
+	  <td><%= game.players.count %></td>
+	</tr>
+  <% end %>
+</tbody>
+</table>

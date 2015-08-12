@@ -4,4 +4,12 @@ class Player < ActiveRecord::Base
 
 	validates_presence_of :game
 	validates_presence_of :assassin
+
+	def status
+		if self.alive
+			"alive"
+		else
+			"terminated"
+		end
+	end
 end

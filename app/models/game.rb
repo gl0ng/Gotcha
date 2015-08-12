@@ -13,4 +13,14 @@ class Game < ActiveRecord::Base
 	def players
 		Player.where(game_id: self.id)
 	end
+
+	def status
+		if self.finished
+			"Completed"
+		elsif self.in_progress
+			"In-Progress"
+		else
+			"Enrolling"
+		end
+	end			
 end
