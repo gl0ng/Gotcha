@@ -22,5 +22,17 @@ class Game < ActiveRecord::Base
 		else
 			"Enrolling"
 		end
-	end			
+	end		
+
+	def start
+		self.update_attributes(in_progress: true)
+		contestants = players.shuffle
+		contestants.each_with_index do |contestant, index|
+			if contestant == contestants.last
+				contestant.update_attributes(target_id: contestants.first.id)
+			else
+				contestant.update_attributes(target_id: contestants[index + 1].id)
+			end
+		end
+	end	
 end
