@@ -48,11 +48,31 @@ class GamesController < ApplicationController
 	def join
 		@game = Game.find(params[:id])
 
-		unless @game.players.find_by(assassin_id: current_user.id)
-			Player.create(game: @game, :assassin => current_user)
-		    flash[:success] = "Joined Game!"
+		if @game.status == "Enrolling"
+			unless @game.players.find_by(assassin_id: current_user.id)
+				Player.create(game: @game, :assassin => current_user)
+			    flash[:success] = "Joined Game!"
+			else
+				flash[:danger] = "Already Joined Game!"
+			end
 		else
-			flash[:notice] = "Already Joined Game!"
+			flash[:danger] = "Game Closed to Enrollment"
+		end
+		redirect_to @game
+	end
+
+	def start
+		@game = Game.find(params[:id])
+
+		if @game.status == "Enrolling"
+			if @game.players.count > 1
+				@game.update_attributes(in_progress: true)
+				flash[:success] = "Game Started!"
+			else
+				flash[:danger] = "Must Have Two or More Players to Start Game!"
+			end
+		else
+			flash[:danger] = "Game Already Started!"
 		end
 		redirect_to @game
 	end

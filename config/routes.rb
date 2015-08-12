@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :games do
     member do
       put :join
+      put :start
     end
   end
 
