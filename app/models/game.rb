@@ -1,4 +1,6 @@
 class Game < ActiveRecord::Base
+	require 'securerandom'
+
 	has_one :admin, class_name: "Assassin", foreign_key: "admin_id"
 	has_many :players
 
@@ -26,13 +28,28 @@ class Game < ActiveRecord::Base
 
 	def start
 		self.update_attributes(in_progress: true)
-		contestants = players.shuffle
+		contestants = players.clone.shuffle
 		contestants.each_with_index do |contestant, index|
 			if contestant == contestants.last
 				contestant.update_attributes(target_id: contestants.first.id)
 			else
 				contestant.update_attributes(target_id: contestants[index + 1].id)
 			end
+			contestant.update_attributes(passcode: SecureRandom.hex(4))
 		end
 	end	
+
+	def player_vanquished
+		if self.players.where(alive: true).count < 2
+			self.update_attributes(in_progress: false, finished: true)
+		end
+	end
+
+	def winner
+		if self.finished
+			self.players.where(alive: true).first
+		else
+			nil
+		end
+	end
 end

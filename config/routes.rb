@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   post   'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
 
+  get  'players/:id/defeat', to: 'players#defeat', as: 'defeat_player'
+  patch 'players/:id/vanquish', to: 'players#vanquish', as: 'vanquish_player'
+
   resources :assassins
   resources :games do
     member do
