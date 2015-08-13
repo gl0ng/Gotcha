@@ -36,7 +36,13 @@ class GamesController < ApplicationController
 	end
 
 	def index
-		@games = Game.all
+		if params[:mode] == "assassin_only"
+			@games = Game.all.select do |game|
+				game.players.where(assassin_id: current_user.id).count > 0
+			end
+		else
+			@games = Game.all
+		end
 	end
 
 	def destroy
@@ -79,7 +85,7 @@ class GamesController < ApplicationController
 
 	private
 	def game_params
-		params.require(:game).permit(:name, :description)
+		params.require(:game).permit(:name, :description, :mode)
 	end
 
 	def admin_user
