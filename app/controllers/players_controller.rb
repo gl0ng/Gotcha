@@ -1,15 +1,17 @@
 class PlayersController < ApplicationController
-	before_action :game_in_progress, only: [:defeat, :vanquish]
-	before_action :correct_assassin, only: [:defeat, :vanquish]
+	before_action :player 
+	before_action :assassin
+	before_action :game_in_progress
+	before_action :correct_assassin
 
 	def defeat
-		@player = Player.find(params[:id])
 		@player.passcode = nil
 	end
 
 	def vanquish
-		@player = Player.find(params[:id])
+
 		if(player_params[:passcode] == @player.passcode)
+			player.vanquished(assassin)
 			flash[:success] = "Congradulations, Player Defeated!"
 			redirect_to @player.game
 		else
@@ -24,16 +26,21 @@ class PlayersController < ApplicationController
 		params.require(:player).permit(:passcode)
 	end
 
-	def correct_assassin
+	def player
 		@player = Player.find(params[:id])
+	end
+
+	def assassin
 		@assassin = @player.game.players.find_by(:assassin_id => current_user.id)
+	end
+
+	def correct_assassin
 		unless @assassin.target_id == @player.id
-			redirect_to defeat_player_path(@player.target)
+			redirect_to defeat_player_path(Player.find(@player.target_id))
 		end
 	end
 
 	def game_in_progress
-		@player = Player.find(params[:id])
 		unless @player.game.status == "In-Progress"
 			redirect_to @player.game
 		end

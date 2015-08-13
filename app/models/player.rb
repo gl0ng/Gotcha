@@ -18,4 +18,11 @@ class Player < ActiveRecord::Base
 	def name
 		self.assassin.name
 	end
+
+	def vanquished(assassin)
+		self.update_attributes(alive: false)
+		assassin.update_attributes(kills: assassin.kills + 1,
+			target_id: self.target_id)
+		self.game.player_vanquished
+	end
 end

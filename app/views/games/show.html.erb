@@ -21,14 +21,20 @@
             <br>
             Passcode: <%= @player.passcode %>
           <% end %>
-          <% if @player.try(:target) %>
+          <% unless @game.winner.nil? %>
             <br>
             <br>
-            Current Target: <%= link_to @player.target.name, @player.target.assassin %>
-            <br>
-            <br>
-            Target Defeated: 
-            <%= link_to "Defeated", defeat_player_path(Player.find(@player.target_id)), class: "btn btn-lg btn-primary center" %>
+            Winner: <%= link_to @game.winner.name, @game.winner.assassin %>
+          <% else %>
+            <% if @player.try(:target) %>
+              <br>
+              <br>
+              Current Target: <%= link_to Player.find(@player.target_id).name, Player.find(@player.target_id).assassin %>
+              <br>
+              <br>
+              Target Defeated: 
+              <%= link_to "Defeated", defeat_player_path(Player.find(@player.target_id)), class: "btn btn-lg btn-primary center" %>
+            <% end %>
           <% end %>
         </h4>
       <% if !@player && @game.status == "Enrolling" %>

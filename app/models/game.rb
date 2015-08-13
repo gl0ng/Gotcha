@@ -38,4 +38,18 @@ class Game < ActiveRecord::Base
 			contestant.update_attributes(passcode: SecureRandom.hex(4))
 		end
 	end	
+
+	def player_vanquished
+		if self.players.where(alive: true).count < 2
+			self.update_attributes(in_progress: false, finished: true)
+		end
+	end
+
+	def winner
+		if self.finished
+			self.players.where(alive: true).first
+		else
+			nil
+		end
+	end
 end
