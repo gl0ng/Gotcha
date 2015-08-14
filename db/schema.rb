@@ -47,5 +47,6 @@ ActiveRecord::Schema.define(version: 20150812204848) do
 
   add_index "players", ["assassin_id"], name: "index_players_on_assassin_id", using: :btree
   add_index "players", ["game_id"], name: "index_players_on_game_id", using: :btree
+  add_index "players", ["target_id"], name: "index_players_on_target_id", using: :btree
 
 end

@@ -16,6 +16,10 @@ class Game < ActiveRecord::Base
 		Player.where(game_id: self.id)
 	end
 
+	def enrolling
+		!self.finished && !self.in_progress
+	end
+
 	def status
 		if self.finished
 			"Completed"

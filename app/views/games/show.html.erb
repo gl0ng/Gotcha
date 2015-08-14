@@ -16,7 +16,7 @@
           </br>
           </br>
           Status: <%= @game.status %>
-          <% if @game.status == "In-Progress" %>
+          <% if @game.in_progress %>
             <br>
             <br>
             Passcode: <%= @player.passcode %>
@@ -37,13 +37,13 @@
             <% end %>
           <% end %>
         </h4>
-      <% if !@player && @game.status == "Enrolling" %>
+      <% if !@player && @game.enrolling %>
         </br>
         <div class="center" >
           <%= link_to "Join Game", join_game_path(@game), method: :put, class: "btn btn-lg btn-primary center" %>
         </div>
       <% end %>
-      <% if @game.admin == current_user && @game.status == "Enrolling" %>
+      <% if @game.admin == current_user && @game.enrolling %>
         </br>
         <div class="center" >
           <%= link_to "Start Game", start_game_path(@game), method: :put, class: "btn btn-lg btn-primary center" %>
