@@ -1,17 +1,17 @@
 class GamesController < ApplicationController
+	before_action :game, only: [:show, :edit, :update, :destroy, :join, :start]
 	before_action :admin_user, only: [:edit, :update]
+
+	def show
+		@game
+	end
 
 	def new
 		@game = Game.new
 	end
 
-	def show
-		@game = Game.find(params[:id])
-	end
-
 	def create
-		admin_id = current_user.id
-		@game = Game.create(game_params.merge(:admin_id => admin_id))
+		@game = Game.create(game_params.merge(:admin_id => current_user.id))
 		
 		if @game.save
 			flash[:success] = "Game created!"
@@ -22,11 +22,10 @@ class GamesController < ApplicationController
 	end
 
 	def edit
-		@game = Game.find(params[:id])
+		@game
 	end
 
 	def update
-		@game = Game.find(params[:id])
 		if @game.update_attributes(game_params)
 			flash[:success] = "Game Updated!"
 			redirect_to @game
@@ -46,15 +45,13 @@ class GamesController < ApplicationController
 	end
 
 	def destroy
-		Game.find(params[:id]).destroy
+		@game.destroy
 		flash[:success] = "Game deleted"
 		redirect_to assassins_url
 	end
 
 	def join
-		@game = Game.find(params[:id])
-
-		if @game.status == "Enrolling"
+		if @game.enrolling
 			unless @game.players.find_by(assassin_id: current_user.id)
 				Player.create(game: @game, :assassin => current_user)
 			    flash[:success] = "Joined Game!"
@@ -68,9 +65,7 @@ class GamesController < ApplicationController
 	end
 
 	def start
-		@game = Game.find(params[:id])
-
-		if @game.status == "Enrolling"
+		if @game.enrolling
 			if @game.players.count > 1
 				@game.start
 				flash[:success] = "Game Started!"
@@ -88,8 +83,11 @@ class GamesController < ApplicationController
 		params.require(:game).permit(:name, :description, :mode)
 	end
 
-	def admin_user
+	def game
 		@game = Game.find(params[:id])
+	end
+
+	def admin_user
 		redirect_to(root_url) unless current_user?(@game.admin)
 	end
 end

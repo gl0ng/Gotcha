@@ -1,5 +1,6 @@
 class AssassinsController < ApplicationController
 	before_action :logged_in_user, only: [:edit, :update, :index, :destroyS]
+	before_action :assassin, only: [:show, :edit, :update, :destroy]
 	before_action :correct_user, only: [:edit, :update]
 	before_action :admin_user, only: :destroy
 
@@ -8,7 +9,7 @@ class AssassinsController < ApplicationController
 	end
 
 	def show
-		@assassin = Assassin.find(params[:id])
+		@assassin
 	end
 
 	def create
@@ -23,11 +24,10 @@ class AssassinsController < ApplicationController
 	end
 
 	def edit
-		@assassin = Assassin.find(params[:id])
+		@assassin
 	end
 
 	def update
-		@assassin = Assassin.find(params[:id])
 		if @assassin.update_attributes(assassin_params)
 			flash[:success] = "Profile Updated!"
 			redirect_to @assassin
@@ -41,7 +41,7 @@ class AssassinsController < ApplicationController
 	end
 
 	def destroy
-		Assassin.find(params[:id]).destroy
+		@assassin.destroy
 		flash[:success] = "Assassin deleted"
 		redirect_to assassins_url
 	end
@@ -59,8 +59,11 @@ class AssassinsController < ApplicationController
 		end
 	end
 
-	def correct_user
+	def assassin
 		@assassin = Assassin.find(params[:id])
+	end
+
+	def correct_user
 		redirect_to(root_url) unless current_user?(@assassin)
 	end
 

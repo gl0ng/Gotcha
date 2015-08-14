@@ -41,7 +41,7 @@ class PlayersController < ApplicationController
 	end
 
 	def game_in_progress
-		unless @player.game.status == "In-Progress"
+		unless @player.game.in_progress
 			redirect_to @player.game
 		end
 	end
