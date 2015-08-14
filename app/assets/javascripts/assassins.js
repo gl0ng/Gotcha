@@ -1,2 +1,0 @@
-
-jQuery -> $('#assassins').dataTable()
